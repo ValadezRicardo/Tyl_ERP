@@ -1,0 +1,87 @@
+/* src/components/Pedido.css */
+
+.pedido {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  .pedido h2 {
+    text-align: center;
+    font-size: 24px;
+  }
+  
+  .pedido-details {
+    margin-top: 20px;
+  }
+  
+  .pedido-details ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .pedido-details p {
+    font-size: 16px;
+    margin: 8px 0;
+  }
+  
+  .payment-options {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .payment-options button {
+    margin: 5px;
+    padding: 8px 12px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .payment-confirmation {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .payment-confirmation p {
+    font-size: 18px;
+  }
+  
+  .btn-pay {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn-pay:hover, .payment-options button:hover {
+    background-color: #45a049;
+  }
+
+  .btnConfirm {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btnConfirm:hover, button:hover {
+    background-color: #45a049;
+  }
+  
+  
+  .txtQoute, .txtBlack, .product-item{
+    color: #000000;
+  }

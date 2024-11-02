@@ -1,0 +1,123 @@
+/* src/components/QuotationForm.css */
+
+.quotation-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .quotation-form h2, .quotation-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input, .btn-add {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .product-list {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  .product-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .product-item:hover,
+  .product-item.selected {
+    background-color: #e0f7fa;
+  }
+  
+  .quotation-items ul {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .quotation-items li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .btn-remove {
+    margin-left: 10px;
+    color: #ff0000;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .price-breakdown p {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .price-breakdown strong {
+    font-size: 18px;
+  }
+  
+  .btn-add, .btn-quote, .btn-order {
+    width: 100%;
+    padding: 10px;
+    background-color: #008cba;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn-quote {
+    background-color: #4CAF50;
+  }
+  
+  .btn-add:hover, .btn-quote:hover {
+    background-color: #0079a1;
+  }
+
+.btn-order {
+    background-color: #69AFF0;
+  }
+  
+  .btn-order:hover, .btn-order:hover {
+    background-color: #0079a1;
+  }
+    
+  .txtQoute, .txtBlack, .product-item{
+    color: #000000;
+  }
+
+input[type="number"],
+textarea,
+select {
+  width: 100%;          /* Ajusta el ancho para ocupar el 100% del contenedor */
+  padding: 10px;        /* Añade padding para consistencia */
+  margin: 10px 0;       /* Espacio entre cada campo */
+  box-sizing: border-box; /* Para incluir padding en el ancho total */
+  font-size: 16px;      /* Tamaño de fuente consistente */
+  border: 1px solid #ccc; /* Bordes uniformes */
+  border-radius: 5px;   /* Bordes redondeados */
+}
+
+.main-content{
+  margin-top: 80px; 
+}

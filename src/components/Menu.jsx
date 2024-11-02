@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import reactLogo from '../assets/favicon.ico'
+import Contacto from './Contacto';
 
 const Menu = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -14,9 +15,9 @@ const Menu = () => {
         <img src={reactLogo} alt="iappting" className="logo-image" /> {/* Logo */}
       </div>
       <ul className="navbar-links">
-        <li><a href="#inicio">Inicio</a></li>
-        <li><a href="#acerca">Acerca</a></li>
-        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#integraciones">Integraciones</a></li>
+        <li><a href="#actualizaciones">Actualizaciones</a></li>
         {/* Menú desplegable */}
         <li className="dropdown">
           <button className="dropdown-toggle" onClick={toggleDropdown}>
@@ -36,7 +37,7 @@ const Menu = () => {
             </ul>
           )}
         </li>
-        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#contacto">Reporte</a></li>
       </ul>
     </nav>
   );

@@ -1,0 +1,61 @@
+/* src/components/contacto.jsx */
+
+form {
+  margin-top: 80px;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btnSend {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btnSend:hover {
+  background-color: #0056b3;
+} 
+
+label{
+  color: #000000;
+}
+
+.txtFile{
+  color: #000000;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;          /* Ajusta el ancho para ocupar el 100% del contenedor */
+  padding: 10px;        /* Añade padding para consistencia */
+  margin: 10px 0;       /* Espacio entre cada campo */
+  box-sizing: border-box; /* Para incluir padding en el ancho total */
+  font-size: 16px;      /* Tamaño de fuente consistente */
+  border: 1px solid #ccc; /* Bordes uniformes */
+  border-radius: 5px;   /* Bordes redondeados */
+}
+
+.main-content{
+  margin-top: 80px; 
+}

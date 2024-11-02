@@ -19,7 +19,7 @@
 }
 
 .logo-image {
-  max-height: 50px; /* Altura máxima para el logotipo */
+  max-height: 80px; /* Altura máxima para el logotipo */
   height: auto; /* Mantiene la relación de aspecto */
   width: auto; /* Opcional: Asegura que el ancho también sea dinámico */
 }

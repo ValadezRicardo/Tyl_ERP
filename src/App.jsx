@@ -6,6 +6,7 @@ import QuotationForm from './components/QuotationForm';
 import React, { useState } from 'react';
 import Pedido from './components/Pedido';
 import PedidosConfirmados from './components/PedidosConfirmados';
+import Products from './components/Products';
 
 function App() {
   // const [pedidosConfirmados, setPedidosConfirmados] = useState([]);
@@ -18,7 +19,8 @@ function App() {
   return (
     <>
       <Menu/>
-      <QuotationForm/>
+      <Products/>
+      {/* <QuotationForm/> */}
       {/* <Pedido onConfirmOrder={handleConfirmOrder} />
       <PedidosConfirmados pedidos={pedidosConfirmados} /> */}
       {/* <Contacto/> */}

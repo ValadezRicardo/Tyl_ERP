@@ -1,0 +1,30 @@
+/* src/components/PedidosConfirmados.css */
+.pedidos-confirmados {
+    margin-top: 2rem;
+  }
+  
+  .pedidos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+  
+  .pedidos-table th,
+  .pedidos-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .pedidos-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .gran-total {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    text-align: right;
+  }
+  

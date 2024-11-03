@@ -93,3 +93,24 @@
 .dropdown-menu a:hover {
   color: #00aaff;
 }
+
+/* Estilos para pantallas móviles */
+@media (max-width: 768px) {
+  .navbar-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #333;
+    flex-direction: column;
+    width: 100%;
+    display: none;
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .navbar-toggle {
+    display: block;
+  }
+}

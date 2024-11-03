@@ -1,27 +1,30 @@
 // src/components/Pedido.jsx
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './Pedido.css';
 
-const Pedido = ({ items, subtotal, iva, total }) => {
-  const orderNumber = Math.floor(100000 + Math.random() * 900000); // Genera un número de folio único
-  const [showPaymentOptions, setShowPaymentOptions] = useState(false);
+const Pedido = ({ items, subtotal, iva, total, onConfirmOrder }) => {
+  const orderNumber = useMemo(() => Math.floor(100000 + Math.random() * 900000), []);
+  const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('');
-  const [orderConfirmed, setOrderConfirmed] = useState(false);
 
-  const handlePaymentClick = () => {
-    setShowPaymentOptions(true);
-  };
-
-  const handlePaymentMethodChange = (method) => {
+  const handlePaymentMethod = (method) => {
     setPaymentMethod(method);
-    setOrderConfirmed(true);
-    setShowPaymentOptions(false);
   };
 
-  const confirmPayment = () => {
-    alert(`Pedido #${orderNumber} confirmado.
-    Total a pagar: $${total.toFixed(2)}
-    Método de pago: ${paymentMethod === 'transfer' ? 'Transferencia' : 'Efectivo'}`);
+  const confirmOrder = () => {
+    if (!isOrderConfirmed) {
+      const confirmedOrder = {
+        orderNumber,
+        items,
+        subtotal,
+        iva,
+        total,
+        paymentMethod,
+      };
+      setIsOrderConfirmed(true);
+      onConfirmOrder(confirmedOrder);
+      alert(`Pedido #${orderNumber} confirmado.`);
+    }
   };
 
   return (
@@ -29,38 +32,38 @@ const Pedido = ({ items, subtotal, iva, total }) => {
       <h2 className='txtBlack'>Pedido #{orderNumber}</h2>
       <div className="pedido-details">
         <h3 className='txtBlack'>Productos</h3>
-        <ul>
+        <ul className="pedido-items">
           {items.map((item, index) => (
-            <li className='txtBlack' key={index}>
-              {item.name} - Cantidad: {item.quantity} - Subtotal: ${item.subtotal.toFixed(2)}
+            <li key={index} className="pedido-item txtBlack">
+              <span> <strong>{item.name}</strong></span>
+              <span> Cantidad: <strong> {item.quantity}</strong></span>
+              <span> Precio unitario: <strong> ${item.price.toFixed(2)}</strong></span>
+              <span> Total: <strong>${(item.price * item.quantity).toFixed(2)}</strong></span>
             </li>
           ))}
         </ul>
-        <p className='txtBlack'>Subtotal: ${subtotal.toFixed(2)}</p>
-        <p className='txtBlack'>IVA: ${iva.toFixed(2)}</p>
-        <p className='txtBlack'><strong>Total: ${total.toFixed(2)}</strong></p>
+        <div className="pedido-summary">
+          <p className='txtBlack'>Subtotal: ${subtotal.toFixed(2)}</p>
+          <p className='txtBlack'>IVA: ${iva.toFixed(2)}</p>
+          <p className='txtBlack'>Total: ${total.toFixed(2)}</p>
+        </div>
       </div>
 
-      {!showPaymentOptions && !orderConfirmed && (
-        <button className="btn-pay" onClick={handlePaymentClick}>Pagar</button>
+      {!isOrderConfirmed && (
+        <>
+          <div className="payment-methods">
+            <button onClick={() => handlePaymentMethod('transfer')}>Transferencia</button>
+            <button onClick={() => handlePaymentMethod('cash')}>Efectivo</button>
+          </div>
+          <button className="btnConfirm" onClick={confirmOrder}>Confirmar Pedido</button>
+        </>
       )}
 
-      {/* Opciones de método de pago */}
-      {showPaymentOptions && (
-        <div className="payment-options">
-          <p className='txtBlack'>Total a pagar: ${total.toFixed(2)}</p>
-          <p className='txtBlack'>Selecciona el método de pago:</p>
-          <button onClick={() => handlePaymentMethodChange('transfer')}>Transferencia</button>
-          <button onClick={() => handlePaymentMethodChange('cash')}>Efectivo</button>
-        </div>
-      )}
-
-      {/* Confirmación del pago */}
-      {orderConfirmed && (
-        <div className="payment-confirmation">
-          <p className='txtBlack'>Total pagado: ${total.toFixed(2)}</p>
+      {isOrderConfirmed && (
+        <div className="confirmation-message">
+          <p className='txtBlack'>Pedido confirmado con el número #{orderNumber}</p>
           <p className='txtBlack'>Método de pago: {paymentMethod === 'transfer' ? 'Transferencia' : 'Efectivo'}</p>
-          <button className='btnConfirm' onClick={confirmPayment}>Confirmar Pedido</button>
+          <p className='txtBlack'>Total a pagar: ${total.toFixed(2)}</p>
         </div>
       )}
     </div>

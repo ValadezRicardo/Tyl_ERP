@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import './QuotationForm.css';
 import Pedido from './Pedido'; // Importamos el nuevo componente Pedido
+import { FaDeleteLeft } from "react-icons/fa6";
 
 const QuotationForm = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -110,6 +111,15 @@ const QuotationForm = () => {
   const iva = subtotal * IVA_RATE;
   const total = subtotal + iva;
 
+  // Sumatoria de subtotales de todos los pedidos confirmados
+  const totalConfirmedSubtotal = confirmedOrders.reduce((sum, order) => sum + order.subtotal, 0);
+
+  const removeOrder = (index) => {
+    // Eliminar el pedido de confirmedOrders
+    const updatedOrders = confirmedOrders.filter((_, i) => i !== index);
+    setConfirmedOrders(updatedOrders);
+  };
+
   return (
     <div className="quotation-form main-content">
       <h2 className='txtBlack'>Cotización de Productos</h2>
@@ -201,11 +211,6 @@ const QuotationForm = () => {
       <button className="btn-quote" onClick={generatePDF}>Generar Cotización en PDF</button>
       <button className="btn-order" onClick={generateOrder}>Generar Pedido</button>
 
-      {/* Mostramos Pedido solo si showPedido es verdadero */}
-      {/* {showPedido && (
-        <Pedido items={quotationItems} subtotal={subtotal} iva={iva} total={total} />
-      )} */}
-
       {/* Tabla de Pedidos Confirmados */}
       {confirmedOrders.length > 0 && (
         <div className="confirmed-orders">
@@ -218,6 +223,7 @@ const QuotationForm = () => {
                 <th>Subtotal</th>
                 <th>IVA</th>
                 <th>Total</th>
+                <th>Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -228,10 +234,20 @@ const QuotationForm = () => {
                   <td>${order.subtotal.toFixed(2)}</td>
                   <td>${order.iva.toFixed(2)}</td>
                   <td>${order.total.toFixed(2)}</td>
+                  <td>
+                    <button className="btn-remove" onClick={() => removeOrder(index)}>
+                      <FaDeleteLeft />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          {/* Sumatoria de Subtotales de Todos los Pedidos Confirmados */}
+          <div className="total-confirmed-subtotal">
+            <p className='txtBlack'><strong>Venta: ${totalConfirmedSubtotal.toFixed(2)}</strong></p>
+          </div>
         </div>
       )}
     </div>

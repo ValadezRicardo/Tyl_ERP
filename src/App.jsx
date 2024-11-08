@@ -13,7 +13,7 @@ function App() {
     <>
     <Menu></Menu>
     <Routes>
-        <Route path='/' element={<Dashboard />} />
+        <Route path='/' element={<QuotationForm />} />
         <Route path='/QuotationForm' element={<QuotationForm />} />
         <Route path='/Pedido' element={<Pedido />} />
         <Route path='/Dashboard' element={<Dashboard />} />

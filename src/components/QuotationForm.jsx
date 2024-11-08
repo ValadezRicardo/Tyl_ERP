@@ -1,4 +1,3 @@
-// src/components/QuotationForm.jsx
 import React, { useState } from 'react';
 import { jsPDF } from 'jspdf';
 import './QuotationForm.css';
@@ -10,6 +9,8 @@ const QuotationForm = () => {
   const [quantity, setQuantity] = useState(1);
   const [quotationItems, setQuotationItems] = useState([]);
   const [showPedido, setShowPedido] = useState(false); // Estado para mostrar Pedido
+  const [confirmedOrders, setConfirmedOrders] = useState([]); // Estado para almacenar pedidos confirmados
+  const [paymentMethod, setPaymentMethod] = useState(''); // Estado para el método de pago
 
   const IVA_RATE = 0.16; // 16% de IVA
 
@@ -84,7 +85,25 @@ const QuotationForm = () => {
   };
 
   const generateOrder = () => {
+    if (total <= 0) {
+      alert('El total debe ser mayor a 0 para generar un pedido');
+      return;
+    }
+
+    // Guardamos el pedido confirmado en el estado de confirmedOrders
+    const newOrder = {
+      items: quotationItems,
+      subtotal,
+      iva,
+      total,
+      paymentMethod,
+      date: new Date().toLocaleString(),
+    };
+
+    setConfirmedOrders([...confirmedOrders, newOrder]); // Agregar el nuevo pedido
     setShowPedido(true); // Muestra el componente Pedido
+    setQuotationItems([]); // Limpiar los productos cotizados después de confirmar
+    setPaymentMethod(''); // Reseteamos el método de pago
   };
 
   const subtotal = quotationItems.reduce((sum, item) => sum + item.subtotal, 0);
@@ -165,12 +184,55 @@ const QuotationForm = () => {
         <p className='txtBlack'><strong>Total: ${total.toFixed(2)}</strong></p>
       </div>
 
+      {/* Método de Pago */}
+      <div className="payment-method">
+        <label>Método de Pago:</label>
+        <select
+          value={paymentMethod}
+          onChange={(e) => setPaymentMethod(e.target.value)}
+        >
+          <option value="">Seleccione</option>
+          <option value="Efectivo">Efectivo</option>
+          <option value="Transferencia">Transferencia</option>
+          <option value="Tarjeta">Tarjeta</option>
+        </select>
+      </div>
+
       <button className="btn-quote" onClick={generatePDF}>Generar Cotización en PDF</button>
       <button className="btn-order" onClick={generateOrder}>Generar Pedido</button>
 
       {/* Mostramos Pedido solo si showPedido es verdadero */}
-      {showPedido && (
+      {/* {showPedido && (
         <Pedido items={quotationItems} subtotal={subtotal} iva={iva} total={total} />
+      )} */}
+
+      {/* Tabla de Pedidos Confirmados */}
+      {confirmedOrders.length > 0 && (
+        <div className="confirmed-orders">
+          <h3 className='txtBlack'>Pedidos Confirmados</h3>
+          <table className='txtBlack'>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Método de Pago</th>
+                <th>Subtotal</th>
+                <th>IVA</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {confirmedOrders.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.date}</td>
+                  <td>{order.paymentMethod}</td>
+                  <td>${order.subtotal.toFixed(2)}</td>
+                  <td>${order.iva.toFixed(2)}</td>
+                  <td>${order.total.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

@@ -169,7 +169,7 @@ tr:hover td {
 }
 
 /* Responsividad para pantallas pequeñas */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .confirmed-orders {
     padding: 10px;
   }
@@ -184,7 +184,7 @@ tr:hover td {
 
   th, td {
     padding: 8px;
-  }
+  } */
 
   /* Hacer que la tabla sea desplazable horizontalmente */
   .confirmed-orders table {
@@ -194,11 +194,11 @@ tr:hover td {
   }
 
   /* Estilos para los encabezados */
-  th {
-    display: none; /* Ocultar encabezados */
-  }
+  /* th {
+    display: none; /* Ocultar encabezados 
+  } */
 
-  td {
+  /* td {
     display: block;
     text-align: left;
     padding-left: 50%;
@@ -214,10 +214,10 @@ tr:hover td {
     transform: translateY(-50%);
     font-weight: bold;
   }
-}
+} */
 
 /* Responsividad para pantallas muy pequeñas (teléfonos móviles) */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .confirmed-orders {
     padding: 5px;
   }
@@ -237,7 +237,7 @@ tr:hover td {
   td::before {
     font-size: 0.8rem;
   }
-}
+} */
 
 /* Contenedor de la tabla con desplazamiento horizontal */
 .table-container {
@@ -260,7 +260,7 @@ th, td {
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #4CAF50;
   color: #000000;
 }
 

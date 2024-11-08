@@ -18,10 +18,13 @@ const QuotationForm = () => {
   const IVA_RATE = 0.16; // 16% de IVA
 
   const products = [
-    { id: "p1", name: "Producto A", price: 100 },
-    { id: "p2", name: "Producto B", price: 150 },
-    { id: "p3", name: "Producto C", price: 200 },
-    { id: "p4", name: "Producto D", price: 250 },
+    { id: "p1", name: "Axilas", price: 100 },
+    { id: "p2", name: "Bikini Completo", price: 300 },
+    { id: "p3", name: "Entre gluteos", price: 100 },
+    { id: "p4", name: "Bikini Spa", price: 500 },
+    { id: "p5", name: "Bikini Spa Premium", price: 600 },
+    { id: "p6", name: "Diseño y Depilación de Cejas", price: 300 },
+    { id: "p7", name: "Depilación de Cejas", price: 200 },
   ];
 
   const filteredProducts = products.filter((product) =>

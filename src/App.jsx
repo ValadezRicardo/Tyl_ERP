@@ -1,30 +1,25 @@
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
 import Menu from './components/Menu';
-// import Contacto from './components/Contacto';
-// import Dashboard from './components/Dashboard';
-import QuotationForm from './components/QuotationForm';
-import React, { useState } from 'react';
+import NotFound from './components/NotFound';
+import Dashboard from './components/Dashboard';
 import Pedido from './components/Pedido';
-import PedidosConfirmados from './components/PedidosConfirmados';
-import Products from './components/Products';
+import Contacto from './components/Contacto';
+import QuotationForm from './components/QuotationForm';
 
 function App() {
-  // const [pedidosConfirmados, setPedidosConfirmados] = useState([]);
-
-  // const handleConfirmOrder = (newOrder) => {
-  //   // Agregar el nuevo pedido a la lista de pedidos confirmados
-  //   setPedidosConfirmados((prevOrders) => [...prevOrders, newOrder]);
-  // };
-
+  
   return (
     <>
-      <Menu/>
-      <Products/>
-      {/* <QuotationForm/> */}
-      {/* <Pedido onConfirmOrder={handleConfirmOrder} />
-      <PedidosConfirmados pedidos={pedidosConfirmados} /> */}
-      {/* <Contacto/> */}
-      {/* <Dashboard/> */}
+    <Menu></Menu>
+    <Routes>
+        <Route path='/' element={<QuotationForm />} />
+        <Route path='/QuotationForm' element={<QuotationForm />} />
+        <Route path='/Pedido' element={<Pedido />} />
+        <Route path='/Dashboard' element={<Dashboard />} />
+        <Route path='/Contacto' element={<Contacto />} />
+        <Route path="*" element={<NotFound />} />        
+    </Routes>
     </>
   )
 }

@@ -121,3 +121,152 @@ select {
 .main-content{
   margin-top: 80px; 
 }
+
+/* Estilo general para la tabla de Pedidos Confirmados */
+.confirmed-orders {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.confirmed-orders h3 {
+  text-align: center;
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+td {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) td {
+  background-color: #e9e9e9;
+}
+
+tr:hover td {
+  background-color: #e1f7d5;
+}
+
+/* Responsividad para pantallas pequeñas */
+/* @media (max-width: 768px) {
+  .confirmed-orders {
+    padding: 10px;
+  }
+
+  .confirmed-orders h3 {
+    font-size: 1.2rem;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 8px;
+  } */
+
+  /* Hacer que la tabla sea desplazable horizontalmente */
+  .confirmed-orders table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* Estilos para los encabezados */
+  /* th {
+    display: none; /* Ocultar encabezados 
+  } */
+
+  /* td {
+    display: block;
+    text-align: left;
+    padding-left: 50%;
+    position: relative;
+    border-bottom: 1px solid #ddd;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+  }
+} */
+
+/* Responsividad para pantallas muy pequeñas (teléfonos móviles) */
+/* @media (max-width: 480px) {
+  .confirmed-orders {
+    padding: 5px;
+  }
+
+  .confirmed-orders h3 {
+    font-size: 1rem;
+  }
+
+  table {
+    font-size: 0.8rem;
+  }
+
+  th, td {
+    padding: 6px;
+  }
+
+  td::before {
+    font-size: 0.8rem;
+  }
+} */
+
+/* Contenedor de la tabla con desplazamiento horizontal */
+.table-container {
+  overflow-x: auto; /* Permite el desplazamiento horizontal */
+  -webkit-overflow-scrolling: touch; /* Para mejor comportamiento en dispositivos móviles */
+  margin-top: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Hace que las celdas sean de tamaño uniforme */
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+  word-wrap: break-word; /* Permite que el texto largo se rompa en palabras si es necesario */
+}
+
+th {
+  background-color: #4CAF50;
+  color: #000000;
+}
+
+/* Estilo de las celdas de la tabla */
+td {
+  max-width: 150px; /* Máxima anchura para cada celda */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Muestra '...' si el texto es muy largo */
+}

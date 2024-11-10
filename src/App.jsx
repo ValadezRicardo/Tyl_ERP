@@ -13,12 +13,12 @@ function App() {
     <>
     <Menu></Menu>
     <Routes>
-        <Route path='/' element={<QuotationForm />} />
+        <Route path='/' element={<QuotationForm />} /> 
         <Route path='/QuotationForm' element={<QuotationForm />} />
         <Route path='/Pedido' element={<Pedido />} />
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/Contacto' element={<Contacto />} />
-        <Route path="*" element={<NotFound />} />        
+        <Route path="*" element={<NotFound />} />         
     </Routes>
     </>
   )

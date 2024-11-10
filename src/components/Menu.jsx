@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import reactLogo from '../assets/favicon.ico'
 import Contacto from './Contacto';
-import QuotationForm from './QuotationForm';
-import { Link } from 'react-router-dom';
 
 const Menu = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -17,9 +15,9 @@ const Menu = () => {
         <img src={reactLogo} alt="iappting" className="logo-image" /> {/* Logo */}
       </div>
       <ul className="navbar-links">
-        <li><Link to="/Dashboard"><a href="#">Dashboard</a></Link></li>
-        <li><a href="#">Integraciones</a></li>
-        <li><a href="#">Actualizaciones</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#integraciones">Integraciones</a></li>
+        <li><a href="#actualizaciones">Actualizaciones</a></li>
         {/* Menú desplegable */}
         <li className="dropdown">
           <button className="dropdown-toggle" onClick={toggleDropdown}>
@@ -27,7 +25,7 @@ const Menu = () => {
           </button>
           {isDropdownOpen && (
             <ul className="dropdown-menu">
-              <li><Link to="/QuotationForm"><a href="#">Ventas</a></Link></li>
+              <li><a href="#ventas">Ventas</a></li>
               <li><a href="#ventassuministro">Cadena de Suministro</a></li>
               <li><a href="#almacen">Almacén</a></li>
               <li><a href="#contabilidad">Contabilidad</a></li>
@@ -39,7 +37,7 @@ const Menu = () => {
             </ul>
           )}
         </li>
-        <li><Link to="/Contacto"><a href="#">Reporte</a></Link></li>
+        <li><a href="#contacto">Reporte</a></li>
       </ul>
     </nav>
   );

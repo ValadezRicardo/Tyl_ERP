@@ -5,7 +5,7 @@ import Pedido from "./Pedido"; // Importamos el nuevo componente Pedido
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaFilePdf } from "react-icons/fa";
 import { FcSalesPerformance } from "react-icons/fc";
-import iconImage from '../assets/Logoiappting.png'; // Importa la imagen directamente
+import iconImage from '../assets/Logolivana.png'; // Importa la imagen directamente
 
 const QuotationForm = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -75,7 +75,7 @@ const QuotationForm = () => {
     doc.setFontSize(20);
     doc.setFont("helvetica", "bold"); // Establece la fuente y el estilo
     doc.text("Cotización de Productos", 105, 20, null, null, "center");
-    doc.addImage(iconImage, "PNG", 10, 5, 20, 20); // Logotipo
+    doc.addImage(iconImage, "PNG", 10, 5, 12, 12); // Logotipo
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal"); // Restablece el estilo a normal
     doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 170, 10);
@@ -120,9 +120,12 @@ const QuotationForm = () => {
     doc.setFont("helvetica", "normal");
 
     // Pie de página con información de contacto
+    const whatsappNumber = "8128989198"; // Número de WhatsApp sin espacios ni caracteres especiales
+    const whatsappURL = `https://wa.me/${whatsappNumber}`;
     doc.setFontSize(10);
     doc.text("Gracias por su preferencia.", 105, 280, null, null, "center");
-    doc.text("Livana MTY | www.livanamty.com | contacto@livanamty.com | (81) 2898-9198", 105, 285, null, null, "center");
+    doc.text("Livana MTY", 105, 285, null, null, "center");
+    doc.textWithLink(`WhatsApp: ${whatsappNumber}`, 85, 290, { url: whatsappURL });
 
     // Guardar el PDF
     doc.save("Cotizacion.pdf");

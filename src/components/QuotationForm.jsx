@@ -5,6 +5,7 @@ import Pedido from "./Pedido"; // Importamos el nuevo componente Pedido
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { FaFilePdf } from "react-icons/fa";
 import { FcSalesPerformance } from "react-icons/fc";
+import iconImage from '../assets/Logoiappting.png'; // Importa la imagen directamente
 
 const QuotationForm = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,6 +15,8 @@ const QuotationForm = () => {
   const [showPedido, setShowPedido] = useState(false); // Estado para mostrar Pedido
   const [confirmedOrders, setConfirmedOrders] = useState([]); // Estado para almacenar pedidos confirmados
   const [paymentMethod, setPaymentMethod] = useState(""); // Estado para el método de pago
+
+
 
   const IVA_RATE = 0.16; // 16% de IVA
 
@@ -67,31 +70,63 @@ const QuotationForm = () => {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    doc.text("Cotización de Productos", 10, 10);
 
-    let yOffset = 20;
-    quotationItems.forEach((item, index) => {
-      doc.text(
-        `${index + 1}. ${item.name} - Cantidad: ${item.quantity} - Subtotal: $${item.subtotal.toFixed(2)}`,
-        10,
-        yOffset
-      );
-      yOffset += 10;
+    // Encabezado de la cotización
+    doc.setFontSize(20);
+    doc.setFont("helvetica", "bold"); // Establece la fuente y el estilo
+    doc.text("Cotización de Productos", 105, 20, null, null, "center");
+    doc.addImage(iconImage, "PNG", 10, 5, 20, 20); // Logotipo
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal"); // Restablece el estilo a normal
+    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 170, 10);
+
+    // Información adicional (ej. cliente, contacto)
+    // doc.setFontSize(12);
+    // doc.text("Cliente:", 10, 35);
+    // doc.text("Nombre del cliente o empresa", 10, 40);
+    // doc.text("Contacto:", 10, 45);
+    // doc.text("correo@cliente.com | (000) 123-4567", 10, 50);
+
+    // Encabezados de la tabla
+    let yOffset = 40;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "bold"); // Estilo para encabezados
+    doc.text("Producto", 10, yOffset);
+    doc.text("Cantidad", 90, yOffset);
+    doc.text("Subtotal", 140, yOffset);
+    doc.line(10, yOffset + 2, 200, yOffset + 2); // Línea divisoria debajo del encabezado
+    doc.setFont("helvetica", "normal"); // Estilo normal para el contenido
+
+    // Contenido de la tabla
+    yOffset += 10;
+    quotationItems.forEach((item) => {
+        doc.text(item.name, 10, yOffset);
+        doc.text(item.quantity.toString(), 90, yOffset, { align: "center" });
+        doc.text(`$${item.subtotal.toFixed(2)}`, 140, yOffset, { align: "right" });
+        doc.line(10, yOffset + 2, 200, yOffset + 2); // Línea divisoria entre filas
+        yOffset += 10;
     });
 
-    const subtotal = quotationItems.reduce(
-      (sum, item) => sum + item.subtotal,
-      0
-    );
+    // Desglose de precios finales
+    const subtotal = quotationItems.reduce((sum, item) => sum + item.subtotal, 0);
     const iva = subtotal * IVA_RATE;
     const total = subtotal + iva;
 
-    doc.text(`Subtotal: $${subtotal.toFixed(2)}`, 10, yOffset + 10);
-    doc.text(`IVA (16%): $${iva.toFixed(2)}`, 10, yOffset + 20);
-    doc.text(`Total: $${total.toFixed(2)}`, 10, yOffset + 30);
+    yOffset += 10;
+    doc.setFont("helvetica", "bold");
+    doc.text(`Subtotal: $${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, 140, yOffset, { align: "right" });
+    doc.text(`IVA (16%): $${iva.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, 140, yOffset + 10, { align: "right" });
+    doc.text(`Total: $${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}`, 140, yOffset + 20, { align: "right" });
+    doc.setFont("helvetica", "normal");
 
+    // Pie de página con información de contacto
+    doc.setFontSize(10);
+    doc.text("Gracias por su preferencia.", 105, 280, null, null, "center");
+    doc.text("Livana MTY | www.livanamty.com | contacto@livanamty.com | (81) 2898-9198", 105, 285, null, null, "center");
+
+    // Guardar el PDF
     doc.save("Cotizacion.pdf");
-  };
+};
 
   const generateOrder = () => {
     if (total <= 0) {

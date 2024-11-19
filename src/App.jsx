@@ -6,6 +6,7 @@ import Dashboard from './components/Dashboard';
 import Pedido from './components/Pedido';
 import Contacto from './components/Contacto';
 import QuotationForm from './components/QuotationForm';
+import Inventory from './components/Inventory';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
         <Route path='/Pedido' element={<Pedido />} />
         <Route path='/Dashboard' element={<Dashboard />} />
         <Route path='/Contacto' element={<Contacto />} />
+        <Route path='/Inventory' element={<Inventory />} />
         <Route path="*" element={<NotFound />} />         
     </Routes>
     </>

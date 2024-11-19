@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import reactLogo from '../assets/favicon.ico'
 import Contacto from './Contacto';
 import QuotationForm from './QuotationForm';
+import Inventory from './Inventory';
 import { Link } from 'react-router-dom';
 
 const Menu = () => {
@@ -29,7 +30,7 @@ const Menu = () => {
             <ul className="dropdown-menu">
               <li><Link to="/QuotationForm"><a href="#">Ventas</a></Link></li>
               <li><a href="#ventassuministro">Cadena de Suministro</a></li>
-              <li><a href="#almacen">Almacén</a></li>
+              <li><Link to="/Inventory"><a href="#">Almacén</a></Link></li>
               <li><a href="#contabilidad">Contabilidad</a></li>
               <li><a href="#recursoshumanos">Recursos Humanos</a></li>
               <li><a href="#importacionexportacion">Importación/Exportación</a></li>

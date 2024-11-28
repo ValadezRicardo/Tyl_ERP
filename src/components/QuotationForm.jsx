@@ -28,6 +28,7 @@ const QuotationForm = () => {
     { id: "p5", name: "Bikini Spa Premium", price: 600 },
     { id: "p6", name: "Diseño y Depilación de Cejas", price: 300 },
     { id: "p7", name: "Depilación de Cejas", price: 200 },
+    { id: "p8", name: "Lash Lifting", price: 400 },
   ];
 
   const filteredProducts = products.filter((product) =>

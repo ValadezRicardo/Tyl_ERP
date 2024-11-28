@@ -74,7 +74,7 @@ const Contacto = () => {
 
       <div {...getRootProps()} style={{ border: '2px dashed #ccc', padding: '20px', margin: '10px 0' }}>
         <input {...getInputProps()} />
-        <p>Arrastra y suelta archivos aquí, o haz clic para seleccionar archivos</p>
+        <p className='txtBlack'>Arrastra y suelta archivos aquí, o haz clic para seleccionar archivos</p>
         <em>(Solo imágenes y videos)</em>
       </div>
 

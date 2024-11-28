@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './Inventory.css';
+import React, { useState } from "react";
+import "./Inventory.css";
 
 const Inventory = () => {
   const [products, setProducts] = useState([
@@ -11,6 +11,9 @@ const Inventory = () => {
       inTransit: 3,
       free: 3,
       location: "Almacén 1",
+      supplier: "Proveedor A",
+      purchasePrice: 100,
+      salePrice: 150,
     },
     {
       id: 2,
@@ -20,6 +23,9 @@ const Inventory = () => {
       inTransit: 7,
       free: 7,
       location: "Almacén 2",
+      supplier: "Proveedor B",
+      purchasePrice: 80,
+      salePrice: 120,
     },
   ]);
 
@@ -27,22 +33,24 @@ const Inventory = () => {
     name: "",
     total: 0,
     location: "",
+    supplier: "",
+    purchasePrice: 0,
+    salePrice: 0,
   });
 
-  const [inTransitValue, setInTransitValue] = useState({});
-  const [editTotalId, setEditTotalId] = useState(null); // Estado para controlar la edición del total
+  const [editProductId, setEditProductId] = useState(null);
+  const [editableProduct, setEditableProduct] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewProduct({ ...newProduct, [name]: value });
   };
 
-  const handleInTransitChange = (id, value) => {
-    setInTransitValue({ ...inTransitValue, [id]: value });
-  };
-
   const addProduct = () => {
     const total = parseInt(newProduct.total, 10);
+    const purchasePrice = parseFloat(newProduct.purchasePrice);
+    const salePrice = parseFloat(newProduct.salePrice);
+
     setProducts([
       ...products,
       {
@@ -53,49 +61,60 @@ const Inventory = () => {
         inTransit: 0,
         free: total,
         location: newProduct.location,
+        supplier: newProduct.supplier,
+        purchasePrice,
+        salePrice,
       },
     ]);
-    setNewProduct({ name: "", total: 0, location: "" });
+    setNewProduct({
+      name: "",
+      total: 0,
+      location: "",
+      supplier: "",
+      purchasePrice: 0,
+      salePrice: 0,
+    });
   };
 
-  const updateInTransit = (id) => {
-    const value = parseInt(inTransitValue[id], 10) || 0;
+  const startEdit = (product) => {
+    setEditProductId(product.id);
+    setEditableProduct({ ...product });
+  };
 
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditableProduct({ ...editableProduct, [name]: value });
+  };
+
+  const saveEdit = () => {
+    const { total, sold, inTransit } = editableProduct;
+
+    // Validar y convertir los valores editados
+    const updatedProduct = {
+      ...editableProduct,
+      total: parseInt(total, 10),
+      sold: parseInt(sold, 10),
+      inTransit: parseInt(inTransit, 10),
+      free: parseInt(total, 10) - parseInt(sold, 10) - parseInt(inTransit, 10),
+      purchasePrice: parseFloat(editableProduct.purchasePrice),
+      salePrice: parseFloat(editableProduct.salePrice),
+    };
+
+    // Actualizar el producto en la lista
     setProducts((prev) =>
       prev.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              inTransit: product.inTransit + value,
-              total: product.total + value,
-              free: product.free + value,
-            }
-          : product
+        product.id === editProductId ? updatedProduct : product
       )
     );
 
-    setInTransitValue({ ...inTransitValue, [id]: "" });
+    // Resetear el estado de edición
+    setEditProductId(null);
+    setEditableProduct({});
   };
 
-  // Función para activar el modo de edición del total
-  const editTotal = (id) => {
-    setEditTotalId(id);
-  };
-
-  // Función para actualizar el total de un producto
-  const saveTotal = (id, newTotal) => {
-    setProducts((prev) =>
-      prev.map((product) =>
-        product.id === id
-          ? {
-              ...product,
-              total: newTotal,
-              free: newTotal - product.sold - product.inTransit, // Recalcula la cantidad libre
-            }
-          : product
-      )
-    );
-    setEditTotalId(null); // Cierra el campo de edición
+  const cancelEdit = () => {
+    setEditProductId(null);
+    setEditableProduct({});
   };
 
   return (
@@ -126,7 +145,30 @@ const Inventory = () => {
           value={newProduct.location}
           onChange={handleInputChange}
         />
-        <button className='btn' onClick={addProduct}>Agregar</button>
+        <input
+          type="text"
+          name="supplier"
+          placeholder="Proveedor"
+          value={newProduct.supplier}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="purchasePrice"
+          placeholder="Precio de Compra"
+          value={newProduct.purchasePrice}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="salePrice"
+          placeholder="Precio de Venta"
+          value={newProduct.salePrice}
+          onChange={handleInputChange}
+        />
+        <button className="btn" onClick={addProduct}>
+          Agregar
+        </button>
       </div>
 
       {/* Tabla de inventario */}
@@ -141,50 +183,130 @@ const Inventory = () => {
               <th>En Tránsito</th>
               <th>Libre</th>
               <th>Ubicación</th>
+              <th>Proveedor</th>
+              <th>Precio Compra</th>
+              <th>Precio Venta</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody className='txtBlack'>
+          <tbody className="txtBlack">
             {products.map((product) => (
               <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>
-                  {editTotalId === product.id ? (
-                    <div>
+                {editProductId === product.id ? (
+                  <>
+                    <td>
+                      <input
+                        type="text"
+                        name="name"
+                        value={editableProduct.name}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
                       <input
                         type="number"
-                        defaultValue={product.total}
-                        onChange={(e) => saveTotal(product.id, e.target.value)}
+                        name="total"
+                        value={editableProduct.total}
+                        onChange={handleEditChange}
                       />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="sold"
+                        value={editableProduct.sold}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="inTransit"
+                        value={editableProduct.inTransit}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      {editableProduct.total -
+                        editableProduct.sold -
+                        editableProduct.inTransit}
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="location"
+                        value={editableProduct.location}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="supplier"
+                        value={editableProduct.supplier}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="purchasePrice"
+                        value={editableProduct.purchasePrice}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="salePrice"
+                        value={editableProduct.salePrice}
+                        onChange={handleEditChange}
+                      />
+                    </td>
+                    <td>
                       <button
                         className="btn"
-                        onClick={() => saveTotal(product.id, product.total)}
+                        onClick={saveEdit}
+                        disabled={
+                          !editableProduct.name ||
+                          editableProduct.total === "" ||
+                          editableProduct.sold === "" ||
+                          editableProduct.inTransit === "" ||
+                          !editableProduct.location ||
+                          !editableProduct.supplier ||
+                          editableProduct.purchasePrice === "" ||
+                          editableProduct.salePrice === ""
+                        }
                       >
                         Guardar
                       </button>
-                    </div>
-                  ) : (
-                    product.total
-                  )}
-                </td>
-                <td>{product.sold}</td>
-                <td>{product.inTransit}</td>
-                <td>{product.free}</td>
-                <td>{product.location}</td>
-                <td>
-                  <input
-                    type="number"
-                    placeholder="Cantidad en Tránsito"
-                    value={inTransitValue[product.id] || ""}
-                    onChange={(e) => handleInTransitChange(product.id, e.target.value)}
-                  />
-                  <button className='btn' onClick={() => updateInTransit(product.id)}>
-                    Añadir En Tránsito
-                  </button>
-                  <button className='btn' onClick={() => editTotal(product.id)}>
-                    Modificar Total
-                  </button>
-                </td>
+
+                      <button className="btn" onClick={cancelEdit}>
+                        Cancelar
+                      </button>
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td>{product.name}</td>
+                    <td>{product.total}</td>
+                    <td>{product.sold}</td>
+                    <td>{product.inTransit}</td>
+                    <td>{product.free}</td>
+                    <td>{product.location}</td>
+                    <td>{product.supplier}</td>
+                    <td>${product.purchasePrice.toFixed(2)}</td>
+                    <td>${product.salePrice.toFixed(2)}</td>
+                    <td>
+                      <button
+                        className="btn"
+                        onClick={() => startEdit(product)}
+                      >
+                        Editar
+                      </button>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>

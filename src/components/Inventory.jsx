@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as XLSX from "xlsx";
 import "./Inventory.css";
 
 const Inventory = () => {
@@ -89,7 +90,6 @@ const Inventory = () => {
   const saveEdit = () => {
     const { total, sold, inTransit } = editableProduct;
 
-    // Validar y convertir los valores editados
     const updatedProduct = {
       ...editableProduct,
       total: parseInt(total, 10),
@@ -100,14 +100,11 @@ const Inventory = () => {
       salePrice: parseFloat(editableProduct.salePrice),
     };
 
-    // Actualizar el producto en la lista
     setProducts((prev) =>
       prev.map((product) =>
         product.id === editProductId ? updatedProduct : product
       )
     );
-
-    // Resetear el estado de edición
     setEditProductId(null);
     setEditableProduct({});
   };
@@ -117,9 +114,38 @@ const Inventory = () => {
     setEditableProduct({});
   };
 
+  const exportToExcel = () => {
+    // Crear un nuevo libro de trabajo
+    const workbook = XLSX.utils.book_new();
+
+    // Crear una hoja con los datos del inventario
+    const worksheetData = products.map((product) => ({
+      Nombre: product.name,
+      Total: product.total,
+      Vendido: product.sold,
+      "En Tránsito": product.inTransit,
+      Libre: product.free,
+      Ubicación: product.location,
+      Proveedor: product.supplier,
+      "Precio Compra": product.purchasePrice,
+      "Precio Venta": product.salePrice,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+
+    // Agregar la hoja al libro de trabajo
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Inventario");
+
+    // Generar y descargar el archivo Excel
+    XLSX.writeFile(workbook, "Inventario.xlsx");
+  };
+
   return (
     <div>
       <h1>Gestión de Inventario</h1>
+
+      <button className="btn" onClick={exportToExcel}>
+        Descargar en Excel
+      </button>
 
       {/* Formulario para agregar un producto */}
       <div>
@@ -192,121 +218,20 @@ const Inventory = () => {
           <tbody className="txtBlack">
             {products.map((product) => (
               <tr key={product.id}>
-                {editProductId === product.id ? (
-                  <>
-                    <td>
-                      <input
-                        type="text"
-                        name="name"
-                        value={editableProduct.name}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="total"
-                        value={editableProduct.total}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="sold"
-                        value={editableProduct.sold}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="inTransit"
-                        value={editableProduct.inTransit}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      {editableProduct.total -
-                        editableProduct.sold -
-                        editableProduct.inTransit}
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="location"
-                        value={editableProduct.location}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="supplier"
-                        value={editableProduct.supplier}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="purchasePrice"
-                        value={editableProduct.purchasePrice}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="salePrice"
-                        value={editableProduct.salePrice}
-                        onChange={handleEditChange}
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="btn"
-                        onClick={saveEdit}
-                        disabled={
-                          !editableProduct.name ||
-                          editableProduct.total === "" ||
-                          editableProduct.sold === "" ||
-                          editableProduct.inTransit === "" ||
-                          !editableProduct.location ||
-                          !editableProduct.supplier ||
-                          editableProduct.purchasePrice === "" ||
-                          editableProduct.salePrice === ""
-                        }
-                      >
-                        Guardar
-                      </button>
-
-                      <button className="btn" onClick={cancelEdit}>
-                        Cancelar
-                      </button>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td>{product.name}</td>
-                    <td>{product.total}</td>
-                    <td>{product.sold}</td>
-                    <td>{product.inTransit}</td>
-                    <td>{product.free}</td>
-                    <td>{product.location}</td>
-                    <td>{product.supplier}</td>
-                    <td>${product.purchasePrice.toFixed(2)}</td>
-                    <td>${product.salePrice.toFixed(2)}</td>
-                    <td>
-                      <button
-                        className="btn"
-                        onClick={() => startEdit(product)}
-                      >
-                        Editar
-                      </button>
-                    </td>
-                  </>
-                )}
+                <td>{product.name}</td>
+                <td>{product.total}</td>
+                <td>{product.sold}</td>
+                <td>{product.inTransit}</td>
+                <td>{product.free}</td>
+                <td>{product.location}</td>
+                <td>{product.supplier}</td>
+                <td>${product.purchasePrice.toFixed(2)}</td>
+                <td>${product.salePrice.toFixed(2)}</td>
+                <td>
+                  <button className="btn" onClick={() => startEdit(product)}>
+                    Editar
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
